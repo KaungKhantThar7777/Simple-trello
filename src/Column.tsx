@@ -1,15 +1,21 @@
 import React from "react";
 import AddNewItem from "./AddNewItem";
+import { useAppState } from "./AppStateContext";
+import Card from "./Card";
 import { ColumnContainer, ColumnTitle } from "./styles";
 
 interface ColumnProps {
-  text: String;
+  text: string;
+  index: number;
 }
-const Column = ({ text, children }: React.PropsWithChildren<ColumnProps>) => {
+const Column = ({ text, index }: ColumnProps) => {
+  const { state } = useAppState();
   return (
     <ColumnContainer>
       <ColumnTitle>{text}</ColumnTitle>
-      {children}
+      {state.lists[index].tasks.map((task) => (
+        <Card text={task.text} />
+      ))}
       <AddNewItem dark toggleButtonText="+ Add another task" onAdd={alert} />
     </ColumnContainer>
   );
